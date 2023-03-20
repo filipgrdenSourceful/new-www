@@ -20,9 +20,9 @@ published: true
 ---
 ## Overview
 
-In this tutorial, we are going to learn how to modify our [previous code](https://brightinventions.pl/blog/exposed-in-your-project-part-1) and use JetBrains/Exposed in DAO manner
+In this tutorial, we are going to learn how to modify our [previous code](https://brightinventions.pl/blog/exposed-in-your-project-part-1) and use JetBrains/Exposed in DAO manner.
 
-[In the previous post](https://brightinventions.pl/blog/exposed-in-your-project-part-1) we created a simple ktor's app, added Exposed dependencies, and started with simple Person&Address relation CRUD. Now, based on the created implementation, we are going to refactor the code in order to fit DAO approach
+[In the previous post](https://brightinventions.pl/blog/exposed-in-your-project-part-1) we created a simple ktor's app, added Exposed dependencies, and started with simple Person&Address relation CRUD. Now, based on the created implementation, we are going to refactor the code in order to fit DAO approach.
 
 ## Setting up a test application
 
@@ -32,10 +32,10 @@ In this tutorial, we are going to learn how to modify our [previous code](https:
 
 First, a summary, then the details. We did:
 - group `PersonTable`&`AddressTable`, since `AddressTable` shouldn't be used without Person context
-- added `Entity` for both
-- refactored the relations
-- removed `PersonRepository` interface and renamed `PersonRepositoryImpl` to `PersonRepository` in order to simplify the example
-- refactored `PersonRepository` in order to use Entities instead of Tables
+- added `Entity` for both,
+- refactored the relations,
+- removed `PersonRepository` interface and renamed `PersonRepositoryImpl` to `PersonRepository` in order to simplify the example,
+- refactored `PersonRepository` in order to use Entities instead of Tables.
 
 ### tables
 
@@ -59,7 +59,7 @@ object AddressTable : IntIdTable("address") {
 }
 ```
 
-not much - we just moved `AddressTable` from a separate file to the one, common, with `PersonTable`
+There is nothing much - we just moved `AddressTable` from a separate file to the one, common, with `PersonTable`.
 
 ### Entities
 
@@ -91,11 +91,11 @@ class AddressEntity(id: EntityID<Int>): IntEntity(id) {
 ```
 
 `Entity` is a new term since we want to follow the Exposed DAO approach. It states for a representation of a row in the table.\
-additionally, as you can see, we added `PersonEntity.addresses` relation
+additionally, as you can see, we added `PersonEntity.addresses` relation.
 
 `val addresses by AddressEntity referrersOn AddressTable.personId`
 
-which is defined by "old" `person_id` column in `address` table
+..which is defined by "old" `person_id` column in `address` table.
 
 ### PersonRepository refactoring
 
@@ -134,7 +134,7 @@ fun findAll(): List<FoundPersonWithAddressDto> = transaction {
     }
 ```
 
-based on `PersonEntity`, we have access to `find`, `all`, `findById` methods, and more. In this case, we are going to get `all()` of the records and map it, BUT!\
+Based on `PersonEntity`, we have access to `find`, `all`, `findById` methods, and more. In this case, we are going to get `all()` of the records and map it, BUT!\
 
 Since `0.13.1` version (so for a quite long time), we can define eager loading in order to prevent **n+1** problem. By adding `with(PersonEntity::addresses)`, our query execution scenario looks like:
 ```sql
@@ -143,7 +143,7 @@ Since `0.13.1` version (so for a quite long time), we can define eager loading i
 ```
 
 #### find
-because I wanted to show eager loading for `findAll()`, `find` method looks similar to the previous one:
+Because I wanted to show eager loading for `findAll()`, `find` method looks similar to the previous one:
 
 ```kotlin
 fun find(id: PersonId): FoundPersonWithAddressDto? = transaction {
@@ -166,7 +166,7 @@ fun find(id: PersonId): FoundPersonWithAddressDto? = transaction {
     }
 ```
 
-The only difference is that `with` is now `load` (for a single record)
+The only difference is that `with` is now `load` (for a single record).
 
 #### Create, Update, Delete
 
@@ -192,7 +192,7 @@ fun update(id: PersonId, person: UpdatePersonDto): Unit = transaction {
 }
 ```
 
-The thing that is worth mentioning is that update/delete needs to be done on the found entity - that's why we need to `findById` the record we want to remove/update
+The thing that is worth mentioning is that update/delete needs to be done on the found entity - that's why we need to `findById` the record we want to remove/update.
 
 #### addAddress
 
@@ -217,7 +217,7 @@ fun addAddress(personId: PersonId, address: CreateAddressDto) {
     }
 ```
 
-this one is a little tricky - in order to add a new address, we need to assign value to the `personId` explicitly.
+This one is a little tricky - in order to add a new address, we need to assign value to the `personId` explicitly.
 
 ## Testing
 
