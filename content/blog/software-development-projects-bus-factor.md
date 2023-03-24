@@ -65,3 +65,5 @@ If you decide to hire a [software development agency](/), then **you should get 
 When you hire a software team you have to always have in mind the bus factor issue. Fortunately, when your team knows how to share knowledge and communicate effectively, the bus factor shouldn’t be so much of a concern. Just stay calm and… follow the practices that we’ve presented. 😉
 
 <div class='block-button'><h2>Are you looking for a software development company?</h2><div>We have been developing mobile and web apps since 2012 for clients from the UK, Germany, Israel and more. Contact us to estimate your product.</div><a href="/start-project"><button>Let's talk about your solution</button></a></div>
+
+<div class="image"><img src="/images/code-review.svg" alt="image" title="undefined"  /> </div>
