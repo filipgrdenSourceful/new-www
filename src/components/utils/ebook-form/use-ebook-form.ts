@@ -112,7 +112,7 @@ export function useEbookForm(ebookName: string) {
             const currentEbookIndex: number = sendedEbooks.indexOf(
               (el: EbookSignUp200ResponseEbook) => el.name == res.ebook.name
             )
-            if (!currentEbookIndex) {
+            if (currentEbookIndex < 0) {
               setSendedEbooks([...sendedEbooks, res.ebook])
             }
           } else {
